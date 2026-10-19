@@ -236,7 +236,9 @@ textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:1
     </div>
     <div class="sendbox">
       <button class="btn primary full big" id="edSend">Per Mail senden</button>
-      <p class="note" id="edSendNote" style="text-align:center"></p>
+      <p class="note" id="edSendNote" style="text-align:center;margin:6px 0 0"></p>
+      <button class="btn full big" id="edSave" style="margin-top:14px">Collage speichern</button>
+      <p class="note" style="text-align:center;margin-top:6px">Im nächsten Menü „Bild sichern“ (Fotos) oder „In Dateien sichern“ (iPhone, OneDrive) wählen.</p>
     </div>
     <div class="panel gridonly">
       <div class="lbl">Vorlage</div>
@@ -438,6 +440,13 @@ function thumb(col,size){
   const d=Math.min(2,window.devicePixelRatio||1); c.width=W*d; c.height=H*d; c.style.width=W+"px"; c.style.height=H+"px";
   const ctx=c.getContext("2d"); ctx.scale(d,d); draw(ctx,col,W,H); return c;
 }
+function fmtDate(v){const d=v.replace(/\D/g,"").slice(0,8);let o=d.slice(0,2);if(d.length>2)o+="."+d.slice(2,4);if(d.length>4)o+="."+d.slice(4);return o;}
+function renderExportSync(col){
+  const f=ratioOf(col), L=2400; const W=f>=1?L:Math.round(L*f), H=f>=1?Math.round(L/f):L;
+  const c=document.createElement("canvas"); c.width=W; c.height=H; draw(c.getContext("2d"),col,W,H);
+  const u=c.toDataURL("image/jpeg",.88),b=atob(u.split(",")[1]),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);
+  return new Blob([a],{type:"image/jpeg"});
+}
 function renderExport(col){
   const f=ratioOf(col), L=2400; const W=f>=1?L:Math.round(L*f), H=f>=1?Math.round(L/f):L;
   const c=document.createElement("canvas"); c.width=W; c.height=H; draw(c.getContext("2d"),col,W,H);
@@ -515,7 +524,8 @@ function buildEdControls(){
   $("formPanel").hidden=!F||!F.fields.length;
   if(F){const box=$("formFields");box.innerHTML="";E.fields=E.fields||{};
     F.fields.forEach((f,i)=>{const l=document.createElement("label");l.textContent=f.key;const inp=document.createElement("input");inp.id="ff_"+i;inp.value=E.fields[f.key]||"";
-      if(/datum/i.test(f.label))inp.inputMode="numeric";
+      const isDate=/datum|^start$|^abschluss$|^aktuell$/i.test(f.label);
+      if(isDate){inp.inputMode="numeric";inp.placeholder="TT.MM.JJJJ";inp.addEventListener("input",()=>{const pos=inp.selectionStart,old=inp.value;const nv=fmtDate(old);if(nv!==old){inp.value=nv;try{const p=Math.min(nv.length,pos+(nv.length-old.length));inp.setSelectionRange(p,p)}catch(e){}}});}
       inp.addEventListener("input",()=>{E.fields[f.key]=inp.value;redraw()});inp.addEventListener("change",()=>saveCol(E));l.appendChild(inp);box.appendChild(l);});
     return;}
   const t=$("edTpls");t.innerHTML="";const fr=fmtById(E.fmt).r;
@@ -572,6 +582,15 @@ $("fileImgMulti").addEventListener("change",async e=>{
   if(files.length>free.length)toast("Nur "+free.length+" Felder frei, Rest ignoriert");
 });
 
+$("edSave").onclick=async()=>{if(!E)return;const col=E;
+  let blob;try{blob=renderExportSync(col)}catch(e){toast("Collage konnte nicht erstellt werden");return;}
+  const file=new File([blob],safeName(fileBase(col))+".jpg",{type:"image/jpeg"});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{await navigator.share({files:[file]});toast("Gespeichert bzw. übergeben");}catch(err){if(!(err&&err.name==="AbortError"))toast("Das Menü ließ sich nicht öffnen. Bitte erneut tippen.");}
+    return;}
+  try{const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast("Collage wird heruntergeladen");}
+  catch(e){toast("Speichern ist hier nicht möglich. Bitte die App über das Icon öffnen.");}
+};
 $("edSend").onclick=()=>{if(!E)return;const col=E;closeEditor();S.selC.clear();S.selP.clear();S.selC.add(col.id);
   (col.pdfs||[]).forEach(id=>{if(S.pdfs.some(p=>p.id===id))S.selP.add(id)});show("senden");updateBadge();prepare();};
 // Gesten
