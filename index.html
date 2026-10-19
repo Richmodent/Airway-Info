@@ -91,6 +91,7 @@ textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:1
 .lockicon{border-radius:20px;box-shadow:0 4px 18px rgba(7,60,110,.18)}
 #lockCode{width:100%;font:600 20px var(--font);text-align:center;letter-spacing:.12em;border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--surface);color:var(--ink)}
 #lockCode:focus{outline:2px solid var(--accent)}
+.rotout{width:44px;text-align:right;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
 /* Tab bar */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:var(--surface);border-top:1px solid var(--line);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
 .tab{flex:1;max-width:200px;height:50px;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;position:relative}
@@ -211,11 +212,12 @@ textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:1
   </div>
   <div class="ebody">
     <div class="stage"><canvas id="edCanvas"></canvas></div>
-    <p class="hint" id="edHint">Feld antippen und Foto wählen: aus „Fotomediathek“ oder über „Datei auswählen“ aus OneDrive. Mit einem Finger verschieben, mit zwei Fingern zoomen.</p>
+    <p class="hint" id="edHint">Feld antippen und Foto wählen: aus „Fotomediathek“ oder über „Datei auswählen“ aus OneDrive. Mit einem Finger verschieben, mit zwei Fingern zoomen und drehen.</p>
 
     <div class="panel cellpanel" id="cellPanel" hidden>
       <div class="lbl" id="cellLbl">Feld 1</div>
       <div class="slider"><span>Zoom</span><input type="range" id="cellZoom" min="1" max="4" step="0.01"></div>
+      <div class="slider"><span>Drehen</span><input type="range" id="cellTilt" min="-180" max="180" step="0.5" aria-label="Foto drehen"><output id="cellRotOut" class="rotout">0°</output></div>
       <input type="text" id="cellCap" placeholder="Beschriftung, z. B. Vorher" maxlength="40">
       <div class="row" style="margin-top:10px">
         <button class="btn" id="cellPick">Foto wählen</button>
@@ -364,10 +366,14 @@ function cellRects(col,W,H){
   });
 }
 function geom(img,rc,cell){
-  const s0 = Math.max(rc.w/img.naturalWidth, rc.h/img.naturalHeight)*cell.scale;
+  const t=(cell.rot||0)*Math.PI/180, co=Math.abs(Math.cos(t)), si=Math.abs(Math.sin(t));
+  const rw=rc.w*co+rc.h*si, rh=rc.w*si+rc.h*co;
+  const s0 = Math.max(rw/img.naturalWidth, rh/img.naturalHeight)*cell.scale;
   const dw = img.naturalWidth*s0, dh = img.naturalHeight*s0;
-  return {dw,dh,x: rc.x + (rc.w-dw)/2 - cell.ox*(dw-rc.w)/2, y: rc.y + (rc.h-dh)/2 - cell.oy*(dh-rc.h)/2};
+  const sx=(dw-rw)/2, sy=(dh-rh)/2;
+  return {dw,dh,t,sx,sy,cx:rc.x+rc.w/2,cy:rc.y+rc.h/2,lx:-(cell.ox||0)*sx,ly:-(cell.oy||0)*sy};
 }
+function drawCellImg(ctx,img,rc,cell){const g=geom(img,rc,cell);ctx.save();ctx.translate(g.cx,g.cy);ctx.rotate(g.t);ctx.drawImage(img,g.lx-g.dw/2,g.ly-g.dh/2,g.dw,g.dh);ctx.restore();}
 function rr(ctx,x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
 function fieldRects(F,W){const k=W/F.W;return F.fields.map(f=>({x:f.x*k,y:f.y*k,w:f.w*k,h:f.h*k}));}
 function checkRects(F,W){const k=W/F.W;return F.checks.map(c=>({x:c[0]*k,y:c[1]*k,w:c[2]*k,h:c[3]*k}));}
@@ -403,7 +409,7 @@ function draw(ctx,col,W,H,opt){
   cellRects(col,W,H).forEach((rc,i)=>{
     const cell = col.cells[i]; const img = cell && cell.img && S.imgs.get(cell.img);
     ctx.save(); rr(ctx,rc.x,rc.y,rc.w,rc.h,rad); ctx.clip();
-    if(img){const g=geom(img,rc,cell); ctx.drawImage(img,g.x,g.y,g.dw,g.dh);}
+    if(img){drawCellImg(ctx,img,rc,cell);}
     else if(opt.editing){
       ctx.fillStyle = col.bg==="#111111"||col.bg==="#0d4c52" ? "rgba(255,255,255,.12)" : "rgba(7,103,179,.10)";
       ctx.fillRect(rc.x,rc.y,rc.w,rc.h);
@@ -413,8 +419,12 @@ function draw(ctx,col,W,H,opt){
     if(cell && cell.cap){
       const fs = Math.max(11, Math.min(rc.w,rc.h)*.075);
       ctx.font = "600 "+fs+"px -apple-system,Helvetica,Arial,sans-serif";
-      const tw = ctx.measureText(cell.cap).width, p=fs*.5, bx=rc.x+fs*.6, by=rc.y+rc.h-fs*.6-fs*1.6;
-      ctx.fillStyle="rgba(0,0,0,.55)"; rr(ctx,bx,by,tw+p*2,fs*1.6,fs*.8); ctx.fill();
+      const tw = ctx.measureText(cell.cap).width, p=fs*.5, bw=tw+p*2, bh=fs*1.6, m=fs*.6;
+      const spots=[[rc.x+m,rc.y+rc.h-m-bh],[rc.x+m,rc.y+m],[rc.x+rc.w-m-bw,rc.y+rc.h-m-bh],[rc.x+rc.w-m-bw,rc.y+m]];
+      const ov=F&&F.overlay?F.overlay.rect.map(v=>v*k):null;
+      const hitsOv=([x,y])=>ov&&x<ov[0]+ov[2]&&x+bw>ov[0]&&y<ov[1]+ov[3]&&y+bh>ov[1];
+      const [bx,by]=spots.find(s=>!hitsOv(s))||spots[0];
+      ctx.fillStyle="rgba(0,0,0,.55)"; rr(ctx,bx,by,bw,bh,fs*.8); ctx.fill();
       ctx.fillStyle="#fff"; ctx.textBaseline="middle"; ctx.fillText(cell.cap,bx+p,by+fs*.82);
     }
     ctx.restore();
@@ -474,7 +484,7 @@ let shFmt="1:1";
 $("newCollage").onclick=()=>{renderSheet();$("sheet").hidden=false};
 $("shCancel").onclick=()=>$("sheet").hidden=true;
 $("sheet").addEventListener("click",e=>{if(e.target.id==="sheet")$("sheet").hidden=true});
-function newForm(F){const col={id:uid(),kind:"form",form:F.id,name:formName(F),formDef:(LIB.forms||[]).includes(F)?F:undefined,cells:F.boxes.map(()=>({img:null,scale:1,ox:0,oy:0,cap:""})),fields:{},checks:[],updated:Date.now(),rev:0};
+function newForm(F){const col={id:uid(),kind:"form",form:F.id,name:formName(F),formDef:(LIB.forms||[]).includes(F)?F:undefined,cells:F.boxes.map(()=>({img:null,scale:1,ox:0,oy:0,rot:0,cap:""})),fields:{},checks:[],updated:Date.now(),rev:0};
   F.fields.forEach(f=>{if(f.label==="Datum"&&!col.fields[f.key])col.fields[f.key]=today()});
   const dp=(LIB.defaults||{})[F.id];col.pdfs=dp?dp.filter(id=>S.pdfs.some(p=>p.id===id)):[];
   S.collages.push(col);saveCol(col);$("sheet").hidden=true;renderCollagen();openEditor(col);}
@@ -486,7 +496,7 @@ function renderSheet(){
   FMT.forEach(f=>{const b=document.createElement("button");b.className="chip"+(f.id===shFmt?" on":"");b.textContent=f.id;b.onclick=()=>{shFmt=f.id;renderSheet()};fc.appendChild(b)});
   const tc=$("shTpls");tc.innerHTML="";
   TPL.forEach(t=>{const b=document.createElement("button");b.className="tpl";b.innerHTML=tplSVG(t,fmtById(shFmt).r)+"<span>"+t.n+"</span>";
-    b.onclick=()=>{const n=S.collages.length+1;const col={id:uid(),name:"Collage "+n,tpl:t.id,fmt:shFmt,gap:12,rad:0,bg:"#ffffff",cells:t.r.map(()=>({img:null,scale:1,ox:0,oy:0,cap:""})),updated:Date.now(),rev:0};
+    b.onclick=()=>{const n=S.collages.length+1;const col={id:uid(),name:"Collage "+n,tpl:t.id,fmt:shFmt,gap:12,rad:0,bg:"#ffffff",cells:t.r.map(()=>({img:null,scale:1,ox:0,oy:0,rot:0,cap:""})),updated:Date.now(),rev:0};
       S.collages.push(col);saveCol(col);$("sheet").hidden=true;renderCollagen();openEditor(col);};
     tc.appendChild(b)});
 }
@@ -498,7 +508,7 @@ function openEditor(col){E=col;sel=-1;setTimeout(renderColPdfs,0);$("edName").va
 function closeEditor(){if(!E)return;E.name=$("edName").value.trim()||E.name;saveCol(E);E=null;$("editor").hidden=true;document.body.style.overflow="";renderCollagen();}
 $("edDone").onclick=closeEditor;
 $("edName").addEventListener("change",()=>{if(E){E.name=$("edName").value.trim()||E.name;saveCol(E)}});
-function ensureCells(){const n=tplById(E.tpl).r.length;while(E.cells.length<n)E.cells.push({img:null,scale:1,ox:0,oy:0,cap:""});}
+function ensureCells(){const n=tplById(E.tpl).r.length;while(E.cells.length<n)E.cells.push({img:null,scale:1,ox:0,oy:0,rot:0,cap:""});}
 function buildEdControls(){
   const F=formOf(E);
   document.querySelectorAll(".gridonly").forEach(p=>p.hidden=!!F);
@@ -532,28 +542,32 @@ function hit(px,py){const rs=cellRects(E,cvsW,cvsH);for(let i=0;i<rs.length;i++)
 function refreshCellPanel(){
   const p=$("cellPanel"); if(!E||sel<0){p.hidden=true;return;}
   const c=E.cells[sel]; p.hidden=false; $("cellLbl").textContent="Feld "+(sel+1);
-  $("cellZoom").value=c.scale; $("cellZoom").disabled=!c.img; $("cellCap").value=c.cap||"";
+  $("cellZoom").value=c.scale; $("cellZoom").disabled=!c.img; setRotUI(c); $("cellTilt").disabled=!c.img; $("cellCap").value=c.cap||"";
   $("cellPick").textContent=c.img?"Foto ersetzen":"Foto wählen"; $("cellClear").disabled=!c.img&&!c.cap; $("cellReset").disabled=!c.img;
 }
 $("cellZoom").addEventListener("input",e=>{const c=E.cells[sel];c.scale=+e.target.value;redraw()});
+function setRotUI(c){const r=c.rot||0;$("cellTilt").value=r;$("cellRotOut").textContent=(Math.round(r*2)/2).toLocaleString("de-DE")+"°";}
+const normRot=r=>{r=((r%360)+540)%360-180;return Math.round(r*10)/10;};
+$("cellTilt").addEventListener("input",e=>{const c=E.cells[sel];c.rot=normRot(+e.target.value);$("cellRotOut").textContent=(Math.round(c.rot*2)/2).toLocaleString("de-DE")+"°";redraw()});
+$("cellTilt").addEventListener("change",()=>saveCol(E));
 $("cellZoom").addEventListener("change",()=>saveCol(E));
 $("cellCap").addEventListener("input",e=>{E.cells[sel].cap=e.target.value;redraw()});
 $("cellCap").addEventListener("change",()=>saveCol(E));
-$("cellReset").onclick=()=>{Object.assign(E.cells[sel],{scale:1,ox:0,oy:0});saveCol(E);redraw();refreshCellPanel()};
-$("cellClear").onclick=()=>{Object.assign(E.cells[sel],{img:null,scale:1,ox:0,oy:0,cap:""});saveCol(E);cleanupImgs();redraw();refreshCellPanel()};
+$("cellReset").onclick=()=>{Object.assign(E.cells[sel],{scale:1,ox:0,oy:0,rot:0});saveCol(E);redraw();refreshCellPanel()};
+$("cellClear").onclick=()=>{Object.assign(E.cells[sel],{img:null,scale:1,ox:0,oy:0,rot:0,cap:""});saveCol(E);cleanupImgs();redraw();refreshCellPanel()};
 let pickTarget=-1;
 $("cellPick").onclick=()=>{pickTarget=sel;$("fileImg").value="";$("fileImg").click()};
 $("edAdd").onclick=()=>{$("fileImgMulti").value="";$("fileImgMulti").click()};
 $("fileImg").addEventListener("change",async e=>{
   const f=e.target.files[0]; if(!f||!E||pickTarget<0)return; const col=E, i=pickTarget;
-  try{const id=await importPhoto(f);Object.assign(col.cells[i],{img:id,scale:1,ox:0,oy:0});saveCol(col);cleanupImgs();sel=i;redraw();refreshCellPanel();}catch(err){toast("Foto konnte nicht geladen werden")}
+  try{const id=await importPhoto(f);Object.assign(col.cells[i],{img:id,scale:1,ox:0,oy:0,rot:0});saveCol(col);cleanupImgs();sel=i;redraw();refreshCellPanel();}catch(err){toast("Foto konnte nicht geladen werden")}
 });
 $("fileImgMulti").addEventListener("change",async e=>{
   const files=[...e.target.files]; if(!files.length||!E)return; const col=E;
   const n=tplById(col.tpl).r.length; let free=[];for(let i=0;i<n;i++)if(!col.cells[i].img)free.push(i);
   if(!free.length){free=[...Array(n).keys()];}
   const use=files.slice(0,free.length); toast(use.length+" Foto"+(use.length>1?"s":"")+" werden eingesetzt …");
-  for(let k=0;k<use.length;k++){try{const id=await importPhoto(use[k]);Object.assign(col.cells[free[k]],{img:id,scale:1,ox:0,oy:0});redraw();}catch(err){}}
+  for(let k=0;k<use.length;k++){try{const id=await importPhoto(use[k]);Object.assign(col.cells[free[k]],{img:id,scale:1,ox:0,oy:0,rot:0});redraw();}catch(err){}}
   saveCol(col);cleanupImgs();redraw();refreshCellPanel();
   if(files.length>free.length)toast("Nur "+free.length+" Felder frei, Rest ignoriert");
 });
@@ -567,17 +581,20 @@ cv.addEventListener("pointerdown",e=>{
   cv.setPointerCapture(e.pointerId); P.set(e.pointerId,pos(e));
   if(P.size===1){moved=false;const p=pos(e);const i=hit(p.x,p.y);const c=E.cells[i];G={mode:"pan",i,sx:p.x,sy:p.y,ox:c?c.ox:0,oy:c?c.oy:0};}
   else if(P.size===2){const [a,b]=[...P.values()];const mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};let i=hit(mid.x,mid.y);if(i<0)i=sel;const c=E.cells[i];
-    if(c&&c.img){G={mode:"pinch",i,d0:Math.hypot(a.x-b.x,a.y-b.y),s0:c.scale};moved=true;sel=i;}}
+    if(c&&c.img){G={mode:"pinch",i,d0:Math.hypot(a.x-b.x,a.y-b.y),s0:c.scale,a0:Math.atan2(b.y-a.y,b.x-a.x),r0:c.rot||0};moved=true;sel=i;}}
 });
 cv.addEventListener("pointermove",e=>{
   if(!P.has(e.pointerId)||!G)return; P.set(e.pointerId,pos(e));
   const c=E.cells[G.i]; if(!c)return;
   if(G.mode==="pan"&&P.size===1){const p=pos(e);const dx=p.x-G.sx,dy=p.y-G.sy;if(Math.hypot(dx,dy)>6)moved=true;if(!moved||!c.img)return;
     const img=S.imgs.get(c.img);const rc=cellRects(E,cvsW,cvsH)[G.i];const g=geom(img,rc,c);
-    c.ox = g.dw>rc.w ? Math.max(-1,Math.min(1,G.ox-2*dx/(g.dw-rc.w))) : 0;
-    c.oy = g.dh>rc.h ? Math.max(-1,Math.min(1,G.oy-2*dy/(g.dh-rc.h))) : 0;
+    const dxi=dx*Math.cos(g.t)+dy*Math.sin(g.t), dyi=-dx*Math.sin(g.t)+dy*Math.cos(g.t);
+    c.ox = g.sx>0.5 ? Math.max(-1,Math.min(1,G.ox-dxi/g.sx)) : 0;
+    c.oy = g.sy>0.5 ? Math.max(-1,Math.min(1,G.oy-dyi/g.sy)) : 0;
     if(sel!==G.i){sel=G.i;refreshCellPanel()} redraw();}
-  else if(G.mode==="pinch"&&P.size===2){const [a,b]=[...P.values()];c.scale=Math.max(1,Math.min(4,G.s0*Math.hypot(a.x-b.x,a.y-b.y)/G.d0));$("cellZoom").value=c.scale;redraw();}
+  else if(G.mode==="pinch"&&P.size===2){const [a,b]=[...P.values()];c.scale=Math.max(1,Math.min(4,G.s0*Math.hypot(a.x-b.x,a.y-b.y)/G.d0));
+    let r=G.r0+(Math.atan2(b.y-a.y,b.x-a.x)-G.a0)*180/Math.PI;r=((r%360)+540)%360-180;c.rot=Math.round(r*10)/10;
+    $("cellZoom").value=c.scale;setRotUI(c);redraw();}
 });
 function endP(e){
   if(!P.has(e.pointerId))return; P.delete(e.pointerId);
