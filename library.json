@@ -1,11 +1,11 @@
 {
  "pdfs": [
   {
-   "id": "airway-kids-broschuere",
-   "name": "Airway Kids - Moderne Kieferorthopädie",
-   "file": "content/pdfs/airway-kids-beratung.pdf",
-   "size": 9640864,
-   "changed": 1792339200000
+   "id": "pmvf3m3bxen6e8",
+   "name": "V7-Airway Kids",
+   "file": "content/pdfs/pmvf3m3bxen6e8.pdf",
+   "size": 9644232,
+   "changed": 1792404924767
   }
  ],
  "forms": [],
@@ -13,7 +13,7 @@
  "names": {},
  "defaults": {},
  "freeGrids": true,
- "published": 1792403827266,
+ "published": 1792405970217,
  "access": {
   "salt": "jbo3qxe66n",
   "hash": "8504549e80dcc7ea403cc5eacd720db4f4a69a44c502e8b268cd46d7e20506c2",
