@@ -13,5 +13,10 @@
  "names": {},
  "defaults": {},
  "freeGrids": true,
- "published": 1792339200000
+ "published": 1792403827266,
+ "access": {
+  "salt": "jbo3qxe66n",
+  "hash": "8504549e80dcc7ea403cc5eacd720db4f4a69a44c502e8b268cd46d7e20506c2",
+  "changed": 1792403815001
+ }
 }
