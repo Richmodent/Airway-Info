@@ -92,6 +92,28 @@ textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:1
 #lockCode{width:100%;font:600 20px var(--font);text-align:center;letter-spacing:.12em;border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--surface);color:var(--ink)}
 #lockCode:focus{outline:2px solid var(--accent)}
 .rotout{width:44px;text-align:right;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0 12px}
+.brand-name{display:flex;align-items:center;gap:10px;font:700 20px var(--display);letter-spacing:-.01em}
+.brand-name img{border-radius:9px;box-shadow:0 2px 6px rgba(4,70,127,.2)}
+.brand-by{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);letter-spacing:.03em}
+.brand-by img{height:34px;width:auto;background:#fff;border-radius:8px;padding:3px 8px}
+.hero{position:relative;border-radius:20px;overflow:hidden;margin:8px 0 4px;background:#04467f;color:#fff;box-shadow:0 10px 30px rgba(4,70,127,.25)}
+.hero-art{display:block;width:100%;aspect-ratio:360/200;max-height:230px}
+.hero-text{padding:14px 18px 18px;background:#03284a}
+.hero-text h1{color:#fff;margin:2px 0 6px;font-size:27px}
+.hero-text p{margin:0;font-size:14.5px;line-height:1.45;color:#e3eef8;max-width:60ch}
+.hero .hello{margin:0;color:#9fd8ce;font-weight:600;font-size:14px;letter-spacing:.02em}
+@media (prefers-reduced-motion:no-preference){.h-card,.h-mail,.spark{animation:hfloat 6s ease-in-out infinite}.c2{animation-delay:-2s}.h-mail{animation-delay:-4s}.spark{animation:htw 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}.s2{animation-delay:-1.5s}
+@keyframes hfloat{50%{transform:translateY(-4px)}}@keyframes htw{50%{opacity:.35;transform:scale(.7)}}}
+.steps{list-style:none;counter-reset:st;padding:0;margin:18px 0 20px;display:flex;flex-direction:column;gap:10px}
+.steps li{counter-increment:st;display:grid;grid-template-columns:32px 1fr;column-gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.steps li::before{content:counter(st);grid-row:span 2;width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:700;display:flex;align-items:center;justify-content:center}
+.steps li b{font-size:15px}
+.steps li span{color:var(--muted);font-size:14px;line-height:1.4}
+.hint-box{margin-top:18px;background:var(--chip);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.hint-box span{color:var(--muted)}
+.sentdel{margin-top:10px}
+.sent-tag{color:var(--accent);font-weight:600}
 /* Tab bar */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:var(--surface);border-top:1px solid var(--line);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
 .tab{flex:1;max-width:200px;height:50px;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;position:relative}
@@ -148,7 +170,49 @@ textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:1
 </style>
 
 <main class="wrap">
-  <section id="v-collagen">
+  <section id="v-start">
+    <div class="brandbar">
+      <div class="brand-name"><img src="icon-180.png" alt="" width="34" height="34">Airway Info</div>
+      <div class="brand-by"><span>powered by</span><img src="tpl/logo-dent.png" alt="richmodent zahnärzte köln" height="34"></div>
+    </div>
+    <div class="hero">
+      <svg class="hero-art" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c8ad6"/><stop offset="1" stop-color="#04467f"/></linearGradient>
+          <linearGradient id="ph1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe6f7"/><stop offset="1" stop-color="#9fcbe9"/></linearGradient>
+          <linearGradient id="ph2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8f0eb"/><stop offset="1" stop-color="#79c5b9"/></linearGradient>
+        </defs>
+        <rect width="360" height="200" fill="url(#hg)"/>
+        <circle cx="318" cy="22" r="70" fill="#ffffff" opacity=".06"/>
+        <circle cx="30" cy="196" r="60" fill="#ffffff" opacity=".05"/>
+        <path d="M18 54 C 70 30, 120 40, 150 52 S 205 66, 240 46" fill="none" stroke="#79c5b9" stroke-width="3.5" stroke-linecap="round" opacity=".9"/>
+        <g class="h-card c1"><rect x="150" y="62" width="74" height="92" rx="9" fill="#fff" transform="rotate(-10 187 108)"/><rect x="157" y="69" width="60" height="62" rx="5" fill="url(#ph1)" transform="rotate(-10 187 108)"/><path d="M168 118 q 18 10 36 -6" fill="none" stroke="#0767b3" stroke-width="3" stroke-linecap="round" transform="rotate(-10 187 108)"/></g>
+        <g class="h-card c2"><rect x="214" y="48" width="82" height="102" rx="9" fill="#fff" transform="rotate(7 255 99)"/><rect x="221" y="55" width="68" height="70" rx="5" fill="url(#ph2)" transform="rotate(7 255 99)"/><circle cx="244" cy="80" r="9" fill="#fff" opacity=".8" transform="rotate(7 255 99)"/><path d="M228 118 l 18 -20 l 14 12 l 10 -8 l 14 16 z" fill="#0767b3" opacity=".55" transform="rotate(7 255 99)"/><rect x="226" y="132" width="44" height="5" rx="2.5" fill="#cfdceb" transform="rotate(7 255 99)"/></g>
+        <g class="h-mail"><rect x="252" y="126" width="84" height="56" rx="9" fill="#fff"/><path d="M258 134 l 36 26 l 36 -26" fill="none" stroke="#0767b3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="330" cy="128" r="12" fill="#f2b705"/><path d="M324 128 l 4 4 l 8 -8" fill="none" stroke="#1c1600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <g fill="#fff"><path class="spark s1" d="M128 30 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3z"/><path class="spark s2" d="M300 66 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2z"/></g>
+      </svg>
+      <div class="hero-text">
+        <p class="hello" id="hello">Guten Tag</p>
+        <h1>Herzlich willkommen</h1>
+        <p>Endlich mehr Zeit für unsere Patienten: Aus Fotos, Angaben und Beratungsunterlagen wird in wenigen Minuten eine fertige Mail. Einfach, schnell und im Praxis-Design.</p>
+      </div>
+    </div>
+    <h2>So geht's</h2>
+    <ol class="steps" style="margin-top:8px">
+      <li><b>Vorlage wählen</b><span>„Neue Collage“ antippen und eine Praxis-Vorlage aussuchen.</span></li>
+      <li><b>Fotos einsetzen</b><span>Feld antippen, Foto aus der Mediathek oder aus OneDrive wählen. Mit Fingern verschieben, zoomen und drehen.</span></li>
+      <li><b>Angaben eintragen</b><span>Name und Datum ausfüllen. Beim Datum nur die Ziffern tippen, die Punkte kommen automatisch.</span></li>
+      <li><b>PDFs anhaken</b><span>Passende Beratungs-PDFs auswählen oder weglassen.</span></li>
+      <li><b>Senden oder speichern</b><span>„Per Mail senden“ und im Menü „Mail“ wählen, oder „Collage speichern“ für Fotos, Dateien und OneDrive.</span></li>
+    </ol>
+    <button class="btn primary full big" id="startNew">+ Neue Collage</button>
+    <div class="hint-box">
+      <b>Gut zu wissen</b>
+      <span>Die App immer über das Icon öffnen. Collagen bleiben nur auf diesem iPhone und ersetzen nicht die Dokumentation in der Praxissoftware. Fotos nur mit Einwilligung der Eltern versenden.</span>
+    </div>
+  </section>
+
+  <section id="v-collagen" hidden>
     <h1>Collagen</h1>
     <p class="sub">Vorlage wählen, Fotos einsetzen, Beratungs-PDFs anhaken und per Mail senden. Collagen bleiben nur auf diesem iPhone.</p>
     <button class="btn primary full" id="newCollage">+ Neue Collage</button>
@@ -176,12 +240,16 @@ textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:1
     <div class="summary"><span id="sumCount">Nichts ausgewählt</span><span id="sumSize"></span></div>
     <button class="btn primary full" id="shareBtn" disabled>In Mail öffnen</button>
     <div class="row" style="justify-content:center;margin-top:6px"><button class="btn ghost" id="clearSel">Auswahl leeren</button></div>
+        <h2>Aufräumen</h2>
+    <p class="note" style="margin:0 0 8px" id="sentInfo">Noch keine Collagen gesendet.</p>
+    <button class="btn full danger" id="clearSent" disabled>Gesendete Collagen löschen</button>
     <div id="shareMsg"></div>
   </section>
 </main>
 
 <nav class="tabs" aria-label="Bereiche">
-  <button class="tab on" data-v="collagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="10" height="18" rx="2"/><rect x="15" y="3" width="6" height="8" rx="1.5"/><rect x="15" y="13" width="6" height="8" rx="1.5"/></svg>Collagen</button>
+  <button class="tab on" data-v="start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3.5 10.5 12 3.8l8.5 6.7V20a1 1 0 0 1-1 1h-5v-6h-5v6h-5a1 1 0 0 1-1-1z"/></svg>Start</button>
+  <button class="tab" data-v="collagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="10" height="18" rx="2"/><rect x="15" y="3" width="6" height="8" rx="1.5"/><rect x="15" y="13" width="6" height="8" rx="1.5"/></svg>Collagen</button>
   <button class="tab" data-v="pdfs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2.8h8l5 5V20a1.2 1.2 0 0 1-1.2 1.2H6A1.2 1.2 0 0 1 4.8 20V4A1.2 1.2 0 0 1 6 2.8z"/><path d="M14 2.8V8h5"/><path d="M8 13h8M8 16.5h6"/></svg>PDFs</button>
   <button class="tab" data-v="senden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.8" y="5" width="18.4" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>Senden<span class="badge" id="badge" hidden></span></button>
 </nav>
@@ -218,7 +286,7 @@ textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:1
       <div class="lbl" id="cellLbl">Feld 1</div>
       <div class="slider"><span>Zoom</span><input type="range" id="cellZoom" min="1" max="4" step="0.01"></div>
       <div class="slider"><span>Drehen</span><input type="range" id="cellTilt" min="-180" max="180" step="0.5" aria-label="Foto drehen"><output id="cellRotOut" class="rotout">0°</output></div>
-      <input type="text" id="cellCap" placeholder="Beschriftung, z. B. Vorher" maxlength="40">
+      <input type="text" id="cellCap" placeholder="Beschriftung, z. B. Name oder Vorher" maxlength="40">
       <div class="row" style="margin-top:10px">
         <button class="btn" id="cellPick">Foto wählen</button>
         <button class="btn" id="cellReset">Ausrichtung zurücksetzen</button>
@@ -293,7 +361,7 @@ const TPL = [
 const FMT = [{id:"1:1",r:1},{id:"4:3",r:4/3},{id:"3:4",r:3/4},{id:"4:5",r:.8},{id:"16:9",r:16/9}];
 const BGS = ["#ffffff","#111111","#e9eef0","#0d4c52","#f4ede4"];
 const tplById = id => TPL.find(t=>t.id===id)||TPL[0];
-const FORMS = [{"id":"zb-beratung-dent","n":"Zungenband Beratung · richmodent","W":1000,"H":1000,"bgColor":"#ffffff","boxes":[[14,14,479,479],[507,14,479,479],[14,507,479,479],[507,507,479,479]],"checks":[],"overlay":{"rect":[120,418,760,164],"logo":"tpl/logo-dent.png","logoRect":[138,436,230,128]},"texts":[{"t":"Zungenband Beratung","x":392,"y":470,"size":38,"weight":700,"color":"#1d63b0"}],"fields":[{"label":"Datum","key":"Datum","x":392,"y":500,"w":200,"h":34,"line":true,"size":24},{"label":"Name","key":"Name","x":392,"y":538,"w":470,"h":34,"line":true,"size":26}]},{"id":"zb-beratung-kids","n":"Zungenband Beratung · Airway Kids","W":1000,"H":1000,"bgColor":"#ffffff","boxes":[[14,14,479,479],[507,14,479,479],[14,507,479,479],[507,507,479,479]],"checks":[],"overlay":{"rect":[120,418,760,164],"logo":"tpl/logo-kids.png","logoRect":[138,436,230,128]},"texts":[{"t":"Zungenband Beratung","x":392,"y":470,"size":38,"weight":700,"color":"#1d63b0"}],"fields":[{"label":"Datum","key":"Datum","x":392,"y":500,"w":200,"h":34,"line":true,"size":24},{"label":"Name","key":"Name","x":392,"y":538,"w":470,"h":34,"line":true,"size":26}]},{"id":"airway-screening","n":"Airway Screening","W":1273,"H":1800,"bg":"tpl/airway-screening.jpg","boxes":[[65,680,359,443],[469,680,359,443],[873,680,359,442],[67,1268,357,442],[470,1268,356,442],[873,1269,357,441]],"checks":[[73,355,26,26],[899,355,25,25],[899,386,25,25]],"fields":[{"label":"Datum","x":144,"y":218,"w":473,"h":44,"key":"Datum"},{"label":"Name","x":136,"y":268,"w":332,"h":44,"key":"Name"},{"label":"Vorname","x":582,"y":270,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1037,"y":270,"w":214,"h":44,"key":"Alter"},{"label":"IMD","key":"IMD","x":686,"y":349,"w":90,"h":40},{"label":"ZBS","key":"ZBS","x":1018,"y":349,"w":180,"h":40}]},{"id":"gesunder-start","n":"Gesunder Start „Start“","W":1273,"H":1800,"bg":"tpl/gesunder-start.jpg","boxes":[[80,240,455,297],[737,240,454,297],[80,624,456,297],[737,624,454,297],[79,1010,457,296],[737,1009,454,296],[81,1393,453,296],[737,1394,454,295]],"checks":[],"fields":[{"label":"Name","x":144,"y":104,"w":250,"h":44,"key":"Name"},{"label":"Vorname","x":507,"y":104,"w":250,"h":44,"key":"Vorname"},{"label":"Geburtsdatum","x":928,"y":104,"w":323,"h":44,"key":"Geburtsdatum"},{"label":"Start","x":131,"y":173,"w":473,"h":44,"key":"Start"}]},{"id":"recall","n":"Recall Check","W":1800,"H":1273,"bg":"tpl/recall.jpg","boxes":[[52,224,263,209],[337,224,263,209],[625,224,263,209],[913,224,263,209],[1200,224,263,209],[1487,224,263,209],[51,477,263,209],[337,477,263,209],[625,477,263,209],[913,477,263,209],[1200,477,263,209],[1487,477,263,209],[50,731,263,209],[337,731,263,209],[625,731,263,209],[913,731,263,209],[1200,731,263,209],[1486,731,263,209],[52,983,263,209],[336,984,263,210],[625,984,263,210],[913,984,263,210],[1200,984,263,210],[1486,984,263,210]],"checks":[],"fields":[{"label":"Datum","x":143,"y":92,"w":233,"h":44,"key":"Datum"},{"label":"Start","x":103,"y":175,"w":225,"h":37,"key":"Start"},{"label":"Name","x":457,"y":91,"w":324,"h":44,"key":"Name"},{"label":"Abschluss","x":431,"y":175,"w":186,"h":37,"key":"Abschluss"},{"label":"Vorname","x":894,"y":93,"w":377,"h":44,"key":"Vorname"},{"label":"Geburtsdatum","x":1442,"y":93,"w":336,"h":44,"key":"Geburtsdatum"},{"label":"Aktuell","x":695,"y":175,"w":393,"h":37,"key":"Aktuell"}]},{"id":"baby","n":"Fotocollage Baby","W":1800,"H":1273,"bg":"tpl/baby.jpg","boxes":[[81,765,521,351],[643,765,522,351],[1204,765,522,351]],"checks":[],"fields":[{"label":"Name","x":457,"y":229,"w":324,"h":44,"key":"Name"},{"label":"Datum","x":160,"y":229,"w":216,"h":44,"key":"Datum"},{"label":"Vorname","x":894,"y":230,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":230,"w":428,"h":44,"key":"Alter"}]},{"id":"zb-baby","n":"ZB-Baby PräOP / PostOP","W":1800,"H":1273,"bg":"tpl/zb-baby.jpg","boxes":[[80,324,522,352],[1205,324,522,352],[80,810,522,352],[644,810,522,352],[1205,810,522,352]],"checks":[],"fields":[{"label":"Datum","x":160,"y":122,"w":216,"h":44,"key":"Datum"},{"label":"Name","x":457,"y":122,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":894,"y":123,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":123,"w":428,"h":44,"key":"Alter"}]},{"id":"zb-prae-op","n":"ZB Fotos Prä OP Training","W":1800,"H":1273,"bg":"tpl/zb-prae-op.jpg","boxes":[[80,301,523,696],[644,301,522,696],[1206,301,522,696]],"checks":[],"fields":[{"label":"Datum","x":160,"y":92,"w":216,"h":44,"key":"Datum"},{"label":"Name","x":457,"y":91,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":894,"y":93,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":93,"w":428,"h":44,"key":"Alter"}]},{"id":"zb-post-op","n":"ZB Post OP Training","W":1273,"H":1800,"bg":"tpl/zb-post-op.jpg","boxes":[[66,307,357,442],[470,307,357,442],[872,307,357,442],[68,788,356,442],[469,788,357,442],[871,788,357,442],[68,1268,356,442],[469,1269,357,441],[871,1269,357,441]],"checks":[],"fields":[{"label":"Name","x":144,"y":162,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":582,"y":163,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1037,"y":163,"w":214,"h":44,"key":"Alter"},{"label":"Datum","x":570,"y":264,"w":332,"h":37,"key":"Datum"},{"label":"Datum","x":978,"y":264,"w":273,"h":37,"key":"Datum 2"},{"label":"Datum","x":132,"y":264,"w":361,"h":37,"key":"Datum 3"}]},{"id":"airway-kids","n":"AirwayDiagnostik Kids","W":1800,"H":1273,"bg":"tpl/airway-kids.jpg","boxes":[[75,369,305,230],[448,369,304,230],[821,369,304,230],[1414,378,304,229],[76,679,246,197],[343,679,246,197],[612,679,247,197],[879,679,247,197],[76,915,246,197],[342,915,247,197],[612,915,247,197],[879,915,246,197]],"checks":[[182,62,16,14],[1252,371,21,21],[1253,595,20,20],[1555,778,20,21],[1248,936,21,20],[1350,936,21,20],[1443,936,20,20],[1590,936,20,20],[1248,1087,21,20],[1350,1087,21,20],[1486,1087,20,20],[1590,1087,20,20],[464,1173,20,20],[624,1173,21,20],[765,1173,21,20],[1088,1173,21,20]],"fields":[{"label":"Datum","x":149,"y":239,"w":245,"h":41,"key":"Datum"},{"label":"Name","x":469,"y":239,"w":388,"h":41,"key":"Name"},{"label":"Vorname","x":964,"y":239,"w":451,"h":41,"key":"Vorname"},{"label":"Alter","x":1480,"y":239,"w":298,"h":41,"key":"Alter"},{"label":"IMD","x":1470,"y":644,"w":308,"h":41,"key":"IMD"},{"label":"Erstellt von","x":1371,"y":1162,"w":-732,"h":44,"key":"Erstellt von"}]},{"id":"airway-erw","n":"AirwayDiagnostik Erwachsene","W":1800,"H":1273,"bg":"tpl/airway-erw.jpg","boxes":[[75,369,305,230],[448,369,304,230],[821,369,304,230],[1414,378,304,229],[76,679,246,197],[343,679,246,197],[612,679,247,197],[878,679,247,197],[76,915,246,197],[341,915,246,197],[612,915,247,197],[879,915,246,197]],"checks":[[182,62,16,14],[1252,371,21,21],[1253,595,20,20],[1555,778,20,21],[1248,936,21,20],[1350,936,21,20],[1443,936,20,20],[1590,936,20,20],[1248,1087,21,20],[1350,1087,21,20],[1486,1087,20,20],[1590,1087,20,20],[464,1173,20,20],[624,1173,21,20],[765,1173,21,20],[1088,1173,21,20]],"fields":[{"label":"Datum","x":149,"y":239,"w":245,"h":41,"key":"Datum"},{"label":"Name","x":469,"y":239,"w":388,"h":41,"key":"Name"},{"label":"Vorname","x":964,"y":239,"w":451,"h":41,"key":"Vorname"},{"label":"Alter","x":1480,"y":239,"w":298,"h":41,"key":"Alter"},{"label":"IMD","x":1470,"y":644,"w":308,"h":41,"key":"IMD"},{"label":"Erstellt von","x":1371,"y":1162,"w":-732,"h":44,"key":"Erstellt von"}]},{"id":"kfo-gross-1","n":"Start KFO-Diagnostik Groß · Seite 1","W":1800,"H":1273,"bg":"tpl/kfo-gross-1.jpg","boxes":[[81,265,441,295],[695,264,442,297],[1293,264,443,297],[80,583,442,296],[1293,582,443,297],[78,902,441,296],[695,902,440,295],[1295,900,442,298]],"checks":[],"fields":[{"label":"Datum","x":160,"y":169,"w":216,"h":44,"key":"Datum"},{"label":"Name","x":457,"y":169,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":894,"y":169,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":169,"w":428,"h":44,"key":"Alter"}]},{"id":"kfo-gross-2","n":"Start KFO-Diagnostik Groß · Seite 2","W":1800,"H":1273,"bg":"tpl/kfo-gross-2.jpg","boxes":[[81,229,749,461],[1183,229,537,631],[85,738,749,461]],"checks":[],"fields":[{"label":"Datum","x":160,"y":122,"w":216,"h":44,"key":"Datum"},{"label":"Name","x":457,"y":122,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":894,"y":123,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":123,"w":428,"h":44,"key":"Alter"}]},{"id":"kfo-vergleich","n":"KFO-Vergleich","W":1800,"H":1273,"bg":"tpl/kfo-vergleich.jpg","boxes":[[63,171,369,245],[499,171,369,245],[937,171,369,245],[1374,171,368,245],[63,444,369,245],[499,444,369,245],[937,444,369,245],[1374,444,368,245],[63,721,369,244],[499,721,369,244],[937,721,369,244],[1374,721,368,244],[63,989,369,244],[499,989,369,244],[937,989,369,244],[1374,989,368,244]],"checks":[],"fields":[{"label":"Datum","x":142,"y":68,"w":241,"h":44,"key":"Datum"},{"label":"Name","x":464,"y":68,"w":372,"h":44,"key":"Name"},{"label":"Aufnahmedatum Start","x":247,"y":126,"w":247,"h":33,"key":"Aufnahmedatum Start"},{"label":"Vorname","x":949,"y":68,"w":442,"h":44,"key":"Vorname"},{"label":"Aktuelles Datum","x":640,"y":126,"w":291,"h":33,"key":"Aktuelles Datum"},{"label":"Aufnahmedatum Start","x":1123,"y":125,"w":244,"h":33,"key":"Aufnahmedatum Start 2"},{"label":"Alter","x":1461,"y":68,"w":317,"h":44,"key":"Alter"},{"label":"Aktuelles Datum","x":1514,"y":126,"w":264,"h":33,"key":"Aktuelles Datum 2"}]}];
+const FORMS = [{"id":"zb-beratung-dent","n":"Zungenband Beratung · richmodent","W":1000,"H":1000,"bgColor":"#ffffff","boxes":[[14,14,479,479],[507,14,479,479],[14,507,479,479],[507,507,479,479]],"checks":[],"overlay":{"rect":[120,418,760,164],"logo":"tpl/logo-dent.png","logoRect":[138,436,230,128]},"texts":[{"t":"Zungenband Beratung","x":392,"y":470,"size":38,"weight":700,"color":"#1d63b0"}],"fields":[{"label":"Datum","key":"Datum","x":392,"y":500,"w":200,"h":34,"line":true,"size":24},{"label":"Name","key":"Name","x":392,"y":538,"w":470,"h":34,"line":true,"size":26}]},{"id":"zb-beratung-kids","n":"Zungenband Beratung · Airway Kids","W":1000,"H":1000,"bgColor":"#ffffff","boxes":[[14,14,479,479],[507,14,479,479],[14,507,479,479],[507,507,479,479]],"checks":[],"overlay":{"rect":[120,418,760,164],"logo":"tpl/logo-kids.png","logoRect":[138,436,230,128]},"texts":[{"t":"Zungenband Beratung","x":392,"y":470,"size":38,"weight":700,"color":"#1d63b0"}],"fields":[{"label":"Datum","key":"Datum","x":392,"y":500,"w":200,"h":34,"line":true,"size":24},{"label":"Name","key":"Name","x":392,"y":538,"w":470,"h":34,"line":true,"size":26}]},{"id":"zb-op","n":"Zungenband OP","W":1000,"H":1000,"bgColor":"#ffffff","boxes":[[14,14,479,479],[507,14,479,479],[14,507,479,479],[507,507,479,479]],"checks":[],"caps":["Prä OP","Post OP","",""],"overlay":{"rect":[250,418,500,164],"logo":null},"texts":[{"t":"Zungenband OP","x":282,"y":470,"size":38,"weight":700,"color":"#1d63b0"}],"fields":[{"label":"Datum","key":"Datum","x":282,"y":500,"w":200,"h":34,"line":true,"size":24},{"label":"Name","key":"Name","x":282,"y":538,"w":440,"h":34,"line":true,"size":26}],"capTop":[true,true,false,false]},{"id":"airway-screening","n":"Airway Screening","W":1273,"H":1800,"bg":"tpl/airway-screening.jpg","boxes":[[65,680,359,443],[469,680,359,443],[873,680,359,442],[67,1268,357,442],[470,1268,356,442],[873,1269,357,441]],"checks":[[73,355,26,26],[899,355,25,25],[899,386,25,25]],"fields":[{"label":"Datum","x":144,"y":218,"w":473,"h":44,"key":"Datum"},{"label":"Name","x":136,"y":268,"w":332,"h":44,"key":"Name"},{"label":"Vorname","x":582,"y":270,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1037,"y":270,"w":214,"h":44,"key":"Alter"},{"label":"IMD","key":"IMD","x":686,"y":349,"w":90,"h":40},{"label":"ZBS","key":"ZBS","x":1018,"y":349,"w":180,"h":40}]},{"id":"gesunder-start","n":"Gesunder Start „Start“","W":1273,"H":1800,"bg":"tpl/gesunder-start.jpg","boxes":[[80,240,455,297],[737,240,454,297],[80,624,456,297],[737,624,454,297],[79,1010,457,296],[737,1009,454,296],[81,1393,453,296],[737,1394,454,295]],"checks":[],"fields":[{"label":"Name","x":144,"y":104,"w":250,"h":44,"key":"Name"},{"label":"Vorname","x":507,"y":104,"w":250,"h":44,"key":"Vorname"},{"label":"Geburtsdatum","x":928,"y":104,"w":323,"h":44,"key":"Geburtsdatum"},{"label":"Start","x":131,"y":173,"w":473,"h":44,"key":"Start"}]},{"id":"recall","n":"Recall Check","W":1800,"H":1273,"bg":"tpl/recall.jpg","boxes":[[52,224,263,209],[337,224,263,209],[625,224,263,209],[913,224,263,209],[1200,224,263,209],[1487,224,263,209],[51,477,263,209],[337,477,263,209],[625,477,263,209],[913,477,263,209],[1200,477,263,209],[1487,477,263,209],[50,731,263,209],[337,731,263,209],[625,731,263,209],[913,731,263,209],[1200,731,263,209],[1486,731,263,209],[52,983,263,209],[336,984,263,210],[625,984,263,210],[913,984,263,210],[1200,984,263,210],[1486,984,263,210]],"checks":[],"fields":[{"label":"Datum","x":143,"y":92,"w":233,"h":44,"key":"Datum"},{"label":"Start","x":103,"y":175,"w":225,"h":37,"key":"Start"},{"label":"Name","x":457,"y":91,"w":324,"h":44,"key":"Name"},{"label":"Abschluss","x":431,"y":175,"w":186,"h":37,"key":"Abschluss"},{"label":"Vorname","x":894,"y":93,"w":377,"h":44,"key":"Vorname"},{"label":"Geburtsdatum","x":1442,"y":93,"w":336,"h":44,"key":"Geburtsdatum"},{"label":"Aktuell","x":695,"y":175,"w":393,"h":37,"key":"Aktuell"}]},{"id":"baby","n":"Fotocollage Baby","W":1800,"H":1273,"bg":"tpl/baby.jpg","boxes":[[81,765,521,351],[643,765,522,351],[1204,765,522,351]],"checks":[],"fields":[{"label":"Name","x":457,"y":229,"w":324,"h":44,"key":"Name"},{"label":"Datum","x":160,"y":229,"w":216,"h":44,"key":"Datum"},{"label":"Vorname","x":894,"y":230,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":230,"w":428,"h":44,"key":"Alter"}]},{"id":"zb-baby","n":"ZB-Baby PräOP / PostOP","W":1800,"H":1273,"bg":"tpl/zb-baby.jpg","boxes":[[80,324,522,352],[1205,324,522,352],[80,810,522,352],[644,810,522,352],[1205,810,522,352]],"checks":[],"fields":[{"label":"Datum","x":160,"y":122,"w":216,"h":44,"key":"Datum"},{"label":"Name","x":457,"y":122,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":894,"y":123,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":123,"w":428,"h":44,"key":"Alter"}]},{"id":"zb-prae-op","n":"ZB Fotos Prä OP Training","W":1800,"H":1273,"bg":"tpl/zb-prae-op.jpg","boxes":[[80,301,523,696],[644,301,522,696],[1206,301,522,696]],"checks":[],"fields":[{"label":"Datum","x":160,"y":92,"w":216,"h":44,"key":"Datum"},{"label":"Name","x":457,"y":91,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":894,"y":93,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":93,"w":428,"h":44,"key":"Alter"}]},{"id":"zb-post-op","n":"ZB Post OP Training","W":1273,"H":1800,"bg":"tpl/zb-post-op.jpg","boxes":[[66,307,357,442],[470,307,357,442],[872,307,357,442],[68,788,356,442],[469,788,357,442],[871,788,357,442],[68,1268,356,442],[469,1269,357,441],[871,1269,357,441]],"checks":[],"fields":[{"label":"Name","x":144,"y":162,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":582,"y":163,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1037,"y":163,"w":214,"h":44,"key":"Alter"},{"label":"Datum","x":570,"y":264,"w":332,"h":37,"key":"Datum"},{"label":"Datum","x":978,"y":264,"w":273,"h":37,"key":"Datum 2"},{"label":"Datum","x":132,"y":264,"w":361,"h":37,"key":"Datum 3"}]},{"id":"airway-kids","n":"AirwayDiagnostik Kids","W":1800,"H":1273,"bg":"tpl/airway-kids.jpg","boxes":[[75,369,305,230],[448,369,304,230],[821,369,304,230],[1414,378,304,229],[76,679,246,197],[343,679,246,197],[612,679,247,197],[879,679,247,197],[76,915,246,197],[342,915,247,197],[612,915,247,197],[879,915,246,197]],"checks":[[182,62,16,14],[1252,371,21,21],[1253,595,20,20],[1555,778,20,21],[1248,936,21,20],[1350,936,21,20],[1443,936,20,20],[1590,936,20,20],[1248,1087,21,20],[1350,1087,21,20],[1486,1087,20,20],[1590,1087,20,20],[464,1173,20,20],[624,1173,21,20],[765,1173,21,20],[1088,1173,21,20]],"fields":[{"label":"Datum","x":149,"y":239,"w":245,"h":41,"key":"Datum"},{"label":"Name","x":469,"y":239,"w":388,"h":41,"key":"Name"},{"label":"Vorname","x":964,"y":239,"w":451,"h":41,"key":"Vorname"},{"label":"Alter","x":1480,"y":239,"w":298,"h":41,"key":"Alter"},{"label":"IMD","x":1470,"y":644,"w":308,"h":41,"key":"IMD"},{"label":"Erstellt von","x":1371,"y":1162,"w":-732,"h":44,"key":"Erstellt von"}]},{"id":"airway-erw","n":"AirwayDiagnostik Erwachsene","W":1800,"H":1273,"bg":"tpl/airway-erw.jpg","boxes":[[75,369,305,230],[448,369,304,230],[821,369,304,230],[1414,378,304,229],[76,679,246,197],[343,679,246,197],[612,679,247,197],[878,679,247,197],[76,915,246,197],[341,915,246,197],[612,915,247,197],[879,915,246,197]],"checks":[[182,62,16,14],[1252,371,21,21],[1253,595,20,20],[1555,778,20,21],[1248,936,21,20],[1350,936,21,20],[1443,936,20,20],[1590,936,20,20],[1248,1087,21,20],[1350,1087,21,20],[1486,1087,20,20],[1590,1087,20,20],[464,1173,20,20],[624,1173,21,20],[765,1173,21,20],[1088,1173,21,20]],"fields":[{"label":"Datum","x":149,"y":239,"w":245,"h":41,"key":"Datum"},{"label":"Name","x":469,"y":239,"w":388,"h":41,"key":"Name"},{"label":"Vorname","x":964,"y":239,"w":451,"h":41,"key":"Vorname"},{"label":"Alter","x":1480,"y":239,"w":298,"h":41,"key":"Alter"},{"label":"IMD","x":1470,"y":644,"w":308,"h":41,"key":"IMD"},{"label":"Erstellt von","x":1371,"y":1162,"w":-732,"h":44,"key":"Erstellt von"}]},{"id":"kfo-gross-1","n":"Start KFO-Diagnostik Groß · Seite 1","W":1800,"H":1273,"bg":"tpl/kfo-gross-1.jpg","boxes":[[81,265,441,295],[695,264,442,297],[1293,264,443,297],[80,583,442,296],[1293,582,443,297],[78,902,441,296],[695,902,440,295],[1295,900,442,298]],"checks":[],"fields":[{"label":"Datum","x":160,"y":169,"w":216,"h":44,"key":"Datum"},{"label":"Name","x":457,"y":169,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":894,"y":169,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":169,"w":428,"h":44,"key":"Alter"}]},{"id":"kfo-gross-2","n":"Start KFO-Diagnostik Groß · Seite 2","W":1800,"H":1273,"bg":"tpl/kfo-gross-2.jpg","boxes":[[81,229,749,461],[1183,229,537,631],[85,738,749,461]],"checks":[],"fields":[{"label":"Datum","x":160,"y":122,"w":216,"h":44,"key":"Datum"},{"label":"Name","x":457,"y":122,"w":324,"h":44,"key":"Name"},{"label":"Vorname","x":894,"y":123,"w":386,"h":44,"key":"Vorname"},{"label":"Alter","x":1350,"y":123,"w":428,"h":44,"key":"Alter"}]},{"id":"kfo-vergleich","n":"KFO-Vergleich","W":1800,"H":1273,"bg":"tpl/kfo-vergleich.jpg","boxes":[[63,171,369,245],[499,171,369,245],[937,171,369,245],[1374,171,368,245],[63,444,369,245],[499,444,369,245],[937,444,369,245],[1374,444,368,245],[63,721,369,244],[499,721,369,244],[937,721,369,244],[1374,721,368,244],[63,989,369,244],[499,989,369,244],[937,989,369,244],[1374,989,368,244]],"checks":[],"fields":[{"label":"Datum","x":142,"y":68,"w":241,"h":44,"key":"Datum"},{"label":"Name","x":464,"y":68,"w":372,"h":44,"key":"Name"},{"label":"Aufnahmedatum Start","x":247,"y":126,"w":247,"h":33,"key":"Aufnahmedatum Start"},{"label":"Vorname","x":949,"y":68,"w":442,"h":44,"key":"Vorname"},{"label":"Aktuelles Datum","x":640,"y":126,"w":291,"h":33,"key":"Aktuelles Datum"},{"label":"Aufnahmedatum Start","x":1123,"y":125,"w":244,"h":33,"key":"Aufnahmedatum Start 2"},{"label":"Alter","x":1461,"y":68,"w":317,"h":44,"key":"Alter"},{"label":"Aktuelles Datum","x":1514,"y":126,"w":264,"h":33,"key":"Aktuelles Datum 2"}]}];
 let LIB = {"pdfs":[{"id":"airway-kids-broschuere","name":"Airway Kids - Moderne Kieferorthopädie","file":"content/pdfs/airway-kids-beratung.pdf","size":9640864,"changed":1792339200000}],"forms":[],"hidden":[],"names":{},"defaults":{},"freeGrids":true,"published":1792339200000};
 const allFormDefs = () => FORMS.concat(LIB.forms||[]);
 const formName = F => (LIB.names&&LIB.names[F.id])||F.n;
@@ -303,7 +371,7 @@ const ratioOf = col => {const f=formOf(col); return f ? f.W/f.H : fmtById(col.fm
 const BG = new Map();
 function loadBgs(){return Promise.all(allFormDefs().flatMap(f=>{const a=[];if(f.bg&&BG.has(f.bg))return a;
   if(f.bg)a.push(new Promise(r=>{const i=new Image();i.onload=()=>{BG.set(f.bg,i);r()};i.onerror=r;i.src=f.bg}));
-  if(f.overlay)a.push(new Promise(r=>{const i=new Image();i.onload=()=>{BG.set(f.overlay.logo,i);r()};i.onerror=r;i.src=f.overlay.logo}));
+  if(f.overlay&&f.overlay.logo)a.push(new Promise(r=>{const i=new Image();i.onload=()=>{BG.set(f.overlay.logo,i);r()};i.onerror=r;i.src=f.overlay.logo}));
   return a;}));}
 const today = () => new Date().toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"});
 const fmtById = id => FMT.find(f=>f.id===id)||FMT[0];
@@ -382,7 +450,7 @@ function checkRects(F,W){const k=W/F.W;return F.checks.map(c=>({x:c[0]*k,y:c[1]*
 function drawForm(ctx,col,F,W,H,opt,k){
   if(F.overlay){const o=F.overlay,r=o.rect.map(v=>v*k);
     ctx.save();ctx.shadowColor="rgba(0,0,0,.25)";ctx.shadowBlur=14*k;ctx.shadowOffsetY=3*k;ctx.fillStyle="#ffffff";ctx.fillRect(r[0],r[1],r[2],r[3]);ctx.restore();
-    const lg=S.imgs.get("logo:"+F.id)||BG.get(o.logo); if(lg){const lr=o.logoRect.map(v=>v*k);const s=Math.min(lr[2]/lg.naturalWidth,lr[3]/lg.naturalHeight);const w=lg.naturalWidth*s,h=lg.naturalHeight*s;ctx.drawImage(lg,lr[0]+(lr[2]-w)/2,lr[1]+(lr[3]-h)/2,w,h);}}
+    const lg=o.logo?(S.imgs.get("logo:"+F.id)||BG.get(o.logo)):null; if(lg){const lr=o.logoRect.map(v=>v*k);const s=Math.min(lr[2]/lg.naturalWidth,lr[3]/lg.naturalHeight);const w=lg.naturalWidth*s,h=lg.naturalHeight*s;ctx.drawImage(lg,lr[0]+(lr[2]-w)/2,lr[1]+(lr[3]-h)/2,w,h);}}
   (F.texts||[]).forEach(t=>{ctx.fillStyle=t.color;ctx.font=t.weight+" "+(t.size*k)+"px -apple-system,Helvetica,Arial,sans-serif";ctx.textBaseline="alphabetic";ctx.fillText(t.t,t.x*k,t.y*k);});
   const vals=col.fields||{};
   F.fields.forEach((f,i)=>{const r={x:f.x*k,y:f.y*k,w:f.w*k,h:f.h*k};let x=r.x;const fs=(f.size?f.size*k:r.h*.62);
@@ -425,6 +493,7 @@ function draw(ctx,col,W,H,opt){
       const spots=[[rc.x+m,rc.y+rc.h-m-bh],[rc.x+m,rc.y+m],[rc.x+rc.w-m-bw,rc.y+rc.h-m-bh],[rc.x+rc.w-m-bw,rc.y+m]];
       const ov=F&&F.overlay?F.overlay.rect.map(v=>v*k):null;
       const hitsOv=([x,y])=>ov&&x<ov[0]+ov[2]&&x+bw>ov[0]&&y<ov[1]+ov[3]&&y+bh>ov[1];
+      if(F&&F.capTop&&F.capTop[i])spots.unshift(spots.splice(1,1)[0]);
       const [bx,by]=spots.find(s=>!hitsOv(s))||spots[0];
       ctx.fillStyle="rgba(0,0,0,.55)"; rr(ctx,bx,by,bw,bh,fs*.8); ctx.fill();
       ctx.fillStyle="#fff"; ctx.textBaseline="middle"; ctx.fillText(cell.cap,bx+p,by+fs*.82);
@@ -458,10 +527,10 @@ function tplSVG(t,fr){
 }
 
 // ---------- Ansichten ----------
-let view="collagen";
+let view="start";
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>show(b.dataset.v)));
 function show(v){view=v;document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
-  ["collagen","pdfs","senden"].forEach(k=>$("v-"+k).hidden=k!==v); window.scrollTo(0,0);
+  ["start","collagen","pdfs","senden"].forEach(k=>$("v-"+k).hidden=k!==v); window.scrollTo(0,0);
   if(v==="senden"){renderSend(); prepare();}
 }
 function saveCol(col){col.rev=(col.rev||0)+1;col.updated=Date.now();put("collages",col);}
@@ -473,6 +542,7 @@ function renderCollagen(){
     const c=document.createElement("div");c.className="card";
     const th=document.createElement("div");th.className="thumb";th.appendChild(thumb(col,150));th.onclick=()=>openEditor(col);
     const m=document.createElement("div");m.className="meta";m.textContent=fileBase(col);
+    if(col.sent){const sg=document.createElement("div");sg.className="meta sent-tag";sg.style.cssText="padding-top:0;font-size:12px";sg.textContent="Gesendet "+dateStr(col.sent);setTimeout(()=>m.after(sg),0);}
     const np=(col.pdfs||[]).filter(id=>S.pdfs.some(p=>p.id===id)).length;let pd=null;if(np){pd=document.createElement("div");pd.className="meta";pd.style.cssText="padding-top:0;font-size:12px;font-weight:600;color:var(--accent)";pd.textContent="+ "+np+" PDF"+(np>1?"s":"");}
     const a=document.createElement("div");a.className="acts";
     const be=document.createElement("button");be.textContent="Bearbeiten";be.onclick=()=>openEditor(col);
@@ -488,12 +558,15 @@ function cleanupImgs(){
   [...S.imgs.keys()].forEach(k=>{if(!used.has(k)&&!k.startsWith("logo:")){const i=S.imgs.get(k);try{URL.revokeObjectURL(i.src)}catch(e){}S.imgs.delete(k);del("images",k);}});
 }
 
+// ---------- Start ----------
+(function(){const h=new Date().getHours();$("hello").textContent=(h<11?"Guten Morgen!":"Hallo!")+" Schön, dass du da bist.";})();
+$("startNew").onclick=()=>{show("collagen");renderSheet();$("sheet").hidden=false;};
 // ---------- Neue Collage ----------
 let shFmt="1:1";
 $("newCollage").onclick=()=>{renderSheet();$("sheet").hidden=false};
 $("shCancel").onclick=()=>$("sheet").hidden=true;
 $("sheet").addEventListener("click",e=>{if(e.target.id==="sheet")$("sheet").hidden=true});
-function newForm(F){const col={id:uid(),kind:"form",form:F.id,name:formName(F),formDef:(LIB.forms||[]).includes(F)?F:undefined,cells:F.boxes.map(()=>({img:null,scale:1,ox:0,oy:0,rot:0,cap:""})),fields:{},checks:[],updated:Date.now(),rev:0};
+function newForm(F){const col={id:uid(),kind:"form",form:F.id,name:formName(F),formDef:(LIB.forms||[]).includes(F)?F:undefined,cells:F.boxes.map((b,i)=>({img:null,scale:1,ox:0,oy:0,rot:0,cap:(F.caps&&F.caps[i])||""})),fields:{},checks:[],updated:Date.now(),rev:0};
   F.fields.forEach(f=>{if(f.label==="Datum"&&!col.fields[f.key])col.fields[f.key]=today()});
   const dp=(LIB.defaults||{})[F.id];col.pdfs=dp?dp.filter(id=>S.pdfs.some(p=>p.id===id)):[];
   S.collages.push(col);saveCol(col);$("sheet").hidden=true;renderCollagen();openEditor(col);}
@@ -574,7 +647,7 @@ $("fileImg").addEventListener("change",async e=>{
 });
 $("fileImgMulti").addEventListener("change",async e=>{
   const files=[...e.target.files]; if(!files.length||!E)return; const col=E;
-  const n=tplById(col.tpl).r.length; let free=[];for(let i=0;i<n;i++)if(!col.cells[i].img)free.push(i);
+  const n=formOf(col)?formOf(col).boxes.length:tplById(col.tpl).r.length; let free=[];for(let i=0;i<n;i++)if(!col.cells[i].img)free.push(i);
   if(!free.length){free=[...Array(n).keys()];}
   const use=files.slice(0,free.length); toast(use.length+" Foto"+(use.length>1?"s":"")+" werden eingesetzt …");
   for(let k=0;k<use.length;k++){try{const id=await importPhoto(use[k]);Object.assign(col.cells[free[k]],{img:id,scale:1,ox:0,oy:0,rot:0});redraw();}catch(err){}}
@@ -656,13 +729,20 @@ function renderColPdfs(){
 }
 
 // ---------- Senden ----------
+function sentSub(col){const ch=S.cache.get(col.id);const sz=(ch&&ch.rev===col.rev)?("JPG · "+fmtMB(ch.blob.size)):"JPG";return col.sent?sz+" · gesendet "+dateStr(col.sent):sz;}
+function renderSentInfo(){const n=S.collages.filter(c=>c.sent).length;$("sentInfo").textContent=n?(n+" gesendete Collage"+(n>1?"n":"")+" auf diesem iPhone. Löschen entfernt sie samt Fotos aus der App, nicht aus der Mail."):"Noch keine Collagen gesendet.";
+  const b=$("clearSent");b.disabled=!n;if(!b.dataset.arm)b.textContent=n?("Gesendete Collagen löschen ("+n+")"):"Gesendete Collagen löschen";}
+$("clearSent").onclick=()=>{const b=$("clearSent");const sent=S.collages.filter(c=>c.sent);if(!sent.length)return;
+  if(!b.dataset.arm){b.dataset.arm=1;b.textContent="Wirklich "+sent.length+" löschen?";setTimeout(()=>{delete b.dataset.arm;renderSentInfo()},3500);return;}
+  delete b.dataset.arm;sent.forEach(c=>{S.selC.delete(c.id);S.cache.delete(c.id);del("collages",c.id);});
+  S.collages=S.collages.filter(c=>!c.sent);cleanupImgs();renderCollagen();renderSend();toast(sent.length+" Collage"+(sent.length>1?"n":"")+" gelöscht");};
 function renderSend(){
   const sc=$("sendCollagen");sc.innerHTML="";
   if(!S.collages.length)sc.innerHTML='<div class="empty">Noch keine Collagen angelegt.</div>';
   S.collages.slice().sort((a,b)=>b.updated-a.updated).forEach(col=>{
     const it=document.createElement("div");it.className="item pick"+(S.selC.has(col.id)?" on":"");it.setAttribute("role","checkbox");it.tabIndex=0;it.setAttribute("aria-checked",S.selC.has(col.id));
     it.appendChild(thumb(col,44));const t=document.createElement("div");t.className="txt";t.innerHTML='<div class="nm"></div><div class="sz"></div>';
-    t.querySelector(".nm").textContent=fileBase(col); const ch=S.cache.get(col.id); t.querySelector(".sz").textContent=(ch&&ch.rev===col.rev)?("JPG · "+fmtMB(ch.blob.size)):"JPG";
+    t.querySelector(".nm").textContent=fileBase(col); t.querySelector(".sz").textContent=sentSub(col);
     const ck=document.createElement("div");ck.className="check";it.append(t,ck);
     const tog=()=>{if(S.selC.has(col.id)){S.selC.delete(col.id);(col.pdfs||[]).forEach(id=>{if(!S.collages.some(c=>c.id!==col.id&&S.selC.has(c.id)&&(c.pdfs||[]).includes(id)))S.selP.delete(id)});}
       else{S.selC.add(col.id);(col.pdfs||[]).forEach(id=>{if(S.pdfs.some(p=>p.id===id))S.selP.add(id)});}renderSend();prepare()};
@@ -677,7 +757,7 @@ function renderSend(){
     const tog=()=>{S.selP.has(p.id)?S.selP.delete(p.id):S.selP.add(p.id);renderSend();prepare()};
     it.onclick=tog;it.onkeydown=e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();tog()}};sp.appendChild(it);
   });
-  updateSummary(); updateBadge();
+  updateSummary(); updateBadge(); renderSentInfo();
 }
 let preparing=false;
 async function prepare(){
@@ -691,7 +771,7 @@ async function prepare(){
 }
 function renderSendSizes(){
   const items=$("sendCollagen").querySelectorAll(".item"); const cols=S.collages.slice().sort((a,b)=>b.updated-a.updated);
-  items.forEach((it,i)=>{const col=cols[i];if(!col)return;const ch=S.cache.get(col.id);if(ch&&ch.rev===col.rev)it.querySelector(".sz").textContent="JPG · "+fmtMB(ch.blob.size)});
+  items.forEach((it,i)=>{const col=cols[i];if(!col)return;const ch=S.cache.get(col.id);if(ch&&ch.rev===col.rev)it.querySelector(".sz").textContent=sentSub(col)});
 }
 function fileBase(c){const f=c.fields||{};const who=[f.Name,f.Vorname].filter(x=>x&&x.trim()).join(" ");return who?c.name+" - "+who:c.name;}
 function ready(){return [...S.selC].every(id=>{const c=S.collages.find(x=>x.id===id);const ch=S.cache.get(id);return c&&ch&&ch.rev===c.rev})&&[...S.selP].every(id=>{const p=S.pdfs.find(x=>x.id===id);return !p||PBLOB.has(p.file)})}
@@ -715,9 +795,10 @@ $("shareBtn").onclick=async()=>{
   const text=$("mailText").value.trim(); const data={files}; if(text)data.text=text;
   const m=$("shareMsg"); m.dataset.keep="";
   if(!(navigator.canShare&&navigator.canShare({files}))){m.dataset.keep="1";m.innerHTML='<div class="msg err">Teilen ist hier nicht möglich. Öffne die App über das Icon auf deinem iPhone-Home-Bildschirm.</div>';return;}
-  try{await navigator.share(data);toast("Übergeben");}
+  const markSent=()=>{const t=Date.now();S.collages.filter(c=>S.selC.has(c.id)).forEach(c=>{c.sent=t;put("collages",c);});renderSend();renderCollagen();};
+  try{await navigator.share(data);markSent();toast("Übergeben");}
   catch(err){if(err&&err.name==="AbortError")return;
-    try{await navigator.share({files});toast("Übergeben (ohne Text)");}catch(e2){if(e2&&e2.name==="AbortError")return;m.dataset.keep="1";m.innerHTML='<div class="msg err">Das Teilen-Menü ließ sich nicht öffnen. Bitte erneut tippen.</div>';}}
+    try{await navigator.share({files});markSent();toast("Übergeben (ohne Text)");}catch(e2){if(e2&&e2.name==="AbortError")return;m.dataset.keep="1";m.innerHTML='<div class="msg err">Das Teilen-Menü ließ sich nicht öffnen. Bitte erneut tippen.</div>';}}
 };
 
 // ---------- Praxis-Inhalte laden ----------
